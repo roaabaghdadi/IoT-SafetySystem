@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Safety Monitor Dashboard</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f4f4; color: #333; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1, h2 { color: #0056b3; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .critical { color: red; font-weight: bold; }
+        .normal { color: green; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Company System Monitor – Safety Edition</h1>
+        <h2>Letzte Ereignisse</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Zeitstempel</th>
+                    <th>Sensor</th>
+                    <th>Wert</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in data %}
+                <tr>
+                    <td>{{ entry.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    <td>{{ entry.sensor_type }}</td>
+                    <td>{{ entry.value }} {{ entry.unit }}</td>
+                    <td class="{{ entry.status }}">{{ entry.status.upper() }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- JavaScript für automatische Aktualisierung alle 10 Sekunden -->
+    <script>
+        setTimeout(function(){
+            window.location.reload(1);
+        }, 10000);
+    </script>
+</body>
+</html>
